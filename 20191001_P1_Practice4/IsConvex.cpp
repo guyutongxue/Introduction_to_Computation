@@ -7,6 +7,10 @@ inline int sgn(int x){
     else if(x<0)return -1;
     else return 0;
 }
+/**
+ * Get next point.
+ * Use N(N()) or N(N(N())) to find next's next and so on.
+*/
 inline int N(int x){
     if(x==4)return 1;
     return x+1;
@@ -56,11 +60,12 @@ int main(){
         //for(int i=1;i<=4;i++){
         //    cin>>p[i][0]>>p[i][1];
         //}
+
         for(int i=1;i<=4;i++){
-            Point line=(p[i]-p[N(i)]);
+            Point line=(p[i]-p[N(i)]);//Define the base line.
             int s1=sgn((line*(p[i]-p[N(N(i))]))[2]);
             int s2=sgn((line*(p[i]-p[N(N(N(i)))]))[2]);
-            if(s1!=s2||s1==0||s2==0){
+            if(s1!=s2||s1==0||s2==0){//If the other two line is in one side of the base line
                 cout<<"no"<<endl;
                 goto end_of_while;
             }
