@@ -1,6 +1,8 @@
 #include<iostream>
 #include<cstring>
+#include<algorithm>
 using namespace std;
+
 char lake[6];
 char sample[5]={0,'P','D','T','H'};
 bool isUsed[256];
@@ -28,6 +30,7 @@ bool check(){
         ==1;
     return A&&B&&C&&D;
 }
+
 void print(){
     lake[6]='\0';
     //cout<<lake+1;
@@ -35,6 +38,7 @@ void print(){
         cout<<strchr(lake+1,sample[i])-lake<<endl;
     }
 }
+#ifdef RECURSION
 void generate(int k){
     if(k>4){
         if(check())
@@ -55,3 +59,16 @@ int main(){
     generate(1);
     return 0;
 }
+#else
+int main(){
+    lake[1]='P';
+    lake[2]='D';
+    lake[3]='T';
+    lake[4]='H';
+    do{
+        if(check())print();
+    }
+    while(next_permutation(lake+1,lake+5));
+    return 0;
+}
+#endif

@@ -1,4 +1,5 @@
 #include<iostream>
+#include<algorithm>
 #include<cstring>
 using namespace std;
 int a[6];//a[athlete]=rank
@@ -31,6 +32,7 @@ void print(){
         cout<<a[i]<<endl;
     }
 }
+#ifdef RECURSION
 void generate(int k){
     if(k>5){
         if(check())
@@ -51,3 +53,13 @@ int main(){
     generate(1);
     return 0;
 }
+#else
+int main(){
+    for(int i=1;i<=5;i++)a[i]=i;
+    do{
+        if(check())print();
+    }
+    while(next_permutation(a+1,a+6));
+    return 0;
+}
+#endif

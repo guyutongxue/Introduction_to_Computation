@@ -1,4 +1,5 @@
 #include<iostream>
+#include<algorithm>
 using namespace std;
 bool isUsed[5]={false,false,false,false,false};
 int car[5];
@@ -21,11 +22,12 @@ int check(){
     if(num!=1)return 0;
     return res;
 }
+#ifdef RECURSION
 bool generate(int k){
     if(k>4){
         int t=check();
         if(t){
-             print(t);
+            print(t);
             return true;
         }
     }
@@ -39,6 +41,20 @@ bool generate(int k){
     }
     return false;
 }
+
 int main(){
     generate(1);
 }
+#else
+int main(){
+    for(int i=1;i<=4;i++)car[i]=i;
+    do{
+        if(int t=check()){
+            print(t);
+            return 0;
+        }
+    }
+    while(next_permutation(car+1,car+5));
+    return 0;
+}
+#endif
