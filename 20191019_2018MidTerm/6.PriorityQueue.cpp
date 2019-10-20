@@ -1,3 +1,9 @@
+/**
+ * I FAILED TO AVOID USING STL.
+ * SO IF ANYBODY WHO WANT TO PASS THIS PROBLEM,
+ * TRY OTHER METHOD.
+*/
+
 #include<iostream>
 #include<queue>
 #include<algorithm>
