@@ -13,7 +13,7 @@ int main(){
         }
     }
     for(int i=1;i<=n;i++){ 
-        if (sum[i]>i&&sum[i]<=n&&sum[sum[i]]==i){
+        if(sum[i]>i&&sum[i]<=n&&sum[sum[i]]==i){
             cout<<i<<" "<<sum[i]<<endl;
         }
     }
