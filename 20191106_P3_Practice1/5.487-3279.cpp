@@ -1,4 +1,3 @@
-//FAIL TO PASS BUT REASON NOT FOUND YET
 #include<iostream>
 #include<cstring>
 #include<iomanip>
@@ -27,10 +26,10 @@ int main(){
         for(int j=1;j<=7;){
             char c=cin.get();
             if(c=='\n'||c=='-')continue;
-            (num*=10)+=transfer(c); //就是这一行tm死活过不去
+            (num*=10)+=transfer(c);
             j++;
         }
-        t[num]++;
+        if(num>=0)t[num]++;
     }
     bool isEmpty=true;
     for(int i=0;i<=9999999;i++){
