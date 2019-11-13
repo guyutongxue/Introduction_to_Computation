@@ -5,7 +5,6 @@ enum Status{
     Healthy,   //A healthy status, nothing happened.
     Ill,       //Has been inflected.
     Dangerous, //Will be ill next day.
-    Covering,  //Will be cured next day.
     Covered    //Healthy and never will be inflected again.
 };
 vector<int> friends[100002];
@@ -41,12 +40,8 @@ int main(){
             switch(st[j]){
                 case Healthy:
                 case Covered: break;
-                case Covering:{
-                    st[j]=Covered;
-                    break;
-                }
                 case Ill:{
-                    st[j]=Covering;
+                    st[j]=Covered;
                     cnt--;
                     break;
                 }
