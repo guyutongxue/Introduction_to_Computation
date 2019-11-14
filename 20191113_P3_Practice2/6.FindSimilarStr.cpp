@@ -56,4 +56,5 @@ int main(){
     for(int i=1;i<=nans;i++){
         cout<<ans[i]<<endl;
     }
+    return 0;
 }

@@ -23,4 +23,5 @@ int main(){
         search(1,m);
         cout<<cnt<<endl;
     }
+    return 0;
 }
