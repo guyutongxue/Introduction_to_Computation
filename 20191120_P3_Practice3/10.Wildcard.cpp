@@ -1,4 +1,3 @@
-//Same as P2-6/5
 #include<iostream>
 #include<string>
 using namespace std;
@@ -10,9 +9,14 @@ bool isAbbr(string a,string b){
     }
     bool res=true;
     for(int j=0,k=0;j<a.length();j++){
-        if(a[j]==b[k]){if(k<b.length()){k++;continue;}else return false;}
-        if(a[j]=='?'){if(k<b.length()){k++;continue;}else return false;}
-        if(a[j]=='*'){
+        if(a[j]==b[k]||a[j]=='?'){
+            if(k<b.length()){
+                k++;
+                continue;
+            }
+            else return false;
+        }
+        else if(a[j]=='*'){
             if(k<b.length()){
                 int r=false;
                 for(int i=k;i<b.length();i++){
