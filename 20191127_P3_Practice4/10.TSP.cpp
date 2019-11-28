@@ -7,12 +7,12 @@ int best=1<<30;
 int sum;
 void search(int k){
     if(k>n){
-       if(x[n]!=x[1]&&(sum+a[x[n]][x[1]])<best)
+       if(sum+a[x[n]][x[1]])<best)
            best=sum+a[x[n]][x[1]];
        return;
     }
     for(int i=k;i<=n;i++){
-       if(x[k-1]!=x[i]&&(sum+a[x[k-1]][x[i]])<best){
+       if(sum+a[x[k-1]][x[i]])<best){
            swap(x[k],x[i]);
            sum+=a[x[k-1]][x[k]] ;
            search(k+1);
