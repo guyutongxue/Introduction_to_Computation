@@ -1,50 +1,35 @@
-//COPIED!!!!
-
-
 #include <iostream>
-
 using namespace std;
 int n;
 int a[17][17];
 int x[17];
-int bestc;
-int cc;
-void backtrace ( int t )
-{
-    if( t >  n)
-    {
-       if( a[x[n]][x[1]] != 0 && ((cc+a[x[n]][x[1]]) < bestc || bestc == 0))
-           bestc = cc+a[x[n]][x[1]];
+int best=1<<30;
+int sum;
+void search(int k){
+    if(k>n){
+       if(x[n]!=x[1]&&(sum+a[x[n]][x[1]])<best)
+           best=sum+a[x[n]][x[1]];
        return;
     }
-
-   else
-    {
-       for (int i = t ; i<= n ; i++)
-       {
-           if(a[x[t-1]][x[i]] != 0 && ((cc+a[x[t-1]][x[i]]) < bestc || bestc == 0))//a[t][i]
-           {
-               swap(x[t],x[i]);//swap 和 cc 的顺序问题啊你妹！
-               cc +=  a[x[t-1]][x[t]] ;
-               backtrace(t+1);
-               cc -=  a[x[t-1]][x[t]];
-               swap(x[i],x[t]);
-
-           }
+    for(int i=k;i<=n;i++){
+       if(x[k-1]!=x[i]&&(sum+a[x[k-1]][x[i]])<best){
+           swap(x[k],x[i]);
+           sum+=a[x[k-1]][x[k]] ;
+           search(k+1);
+           sum-=a[x[k-1]][x[k]];
+           swap(x[i],x[k]);
        }
     }
 }
-int main()
-{
-    cin >> n;
-    for(int i = 1; i <= n ; i ++)
-       for(int j = 1 ; j <= n ; j ++)
-           cin >> a[i][j];
-    cc = 0;
-    bestc = 0;
-    for(int i = 1 ; i <= n ; i ++)
-       x[i] = i;
-   backtrace(2);
-    cout << bestc << endl;
+int main(){
+    cin>>n;
+    for(int i=1;i<=n;i++)
+       for(int j=1;j<=n;j++)
+           cin>>a[i][j];
+    sum=0;
+    for(int i=1;i<=n;i++)
+       x[i]=i;
+    search(2);
+    cout<<best<<endl;
     return 0;
 }
