@@ -1,5 +1,4 @@
 #include<iostream>
-#include<string>
 #include<cstring>
 using namespace std;
 int n;
@@ -20,7 +19,7 @@ void gen(int x,int y){
     }
 }
 int main(){
-    basic_string<char> str;
+    char str[102];
     cin>>n;
     for(int i=1;i<=n;i++){
         cin>>str;
@@ -46,22 +45,8 @@ int main(){
                 gen(i,j);
             }
         }
-        //for(int i=1;i<=n;i++){
-        //    for(int j=1;j<=n;j++){
-        //        cout<<mn[i][j];
-        //    }
-        //    cout<<endl;
-        //}
-        //cout<<endl;
         memcpy(m,mn,sizeof(mn));
     }
-    //for(int i=1;i<=n;i++){
-    //        for(int j=1;j<=n;j++){
-    //            cout<<f[i][j];
-    //        }
-    //        cout<<endl;
-    //    }
-    //    cout<<endl;
     int cnt=0;
     for(int i=1;i<=n;i++){
         for(int j=1;j<=n;j++){

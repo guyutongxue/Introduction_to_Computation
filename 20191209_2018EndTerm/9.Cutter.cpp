@@ -50,8 +50,6 @@ void cut(int pos){
     cut(pos+1);
 }
 
-
-
 int main(){
     while(cin>>target>>src,target!=0||src!="0"){
         if(target==atoi(src.c_str())){
