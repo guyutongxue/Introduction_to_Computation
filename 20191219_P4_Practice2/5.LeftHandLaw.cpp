@@ -72,11 +72,11 @@ bool search(int x,int y,Position p){
     }
     if(mk[x][y][p.pos])return true;
     mk[x][y][p.pos]=true;
-    debug();
+    //debug();
     return search(x,y,p-1)||search(x,y,p)||search(x,y,p+1)||search(x,y,p+2);
 }
 int main(){
-    freopen("a.txt","w",stdout);
+    //freopen("a.txt","w",stdout);
     while(cin>>n>>m){
         memset(mk,false,sizeof(mk));
         int x,y;
