@@ -6,6 +6,7 @@ using namespace std;
 char a[102][102];
 bool mk[102][102][256];
 int n,m;
+bool isFound=false;
 
 struct Position{
     char pos;
@@ -63,14 +64,16 @@ void debug(){
 }
 bool search(int x,int y,Position p){
     step(p,x,y);
-    debug();
-    if(a[x][y]=='#')return false;
-    if(a[x][y]=='T')return true;
     //debug();
-    return  !mk[x][y][(p-1).pos]&&(mk[x][y][(p-1).pos]=true,search(x,y,p-1))||
-            !mk[x][y][p    .pos]&&(mk[x][y][p    .pos]=true,search(x,y,p  ))||
-            !mk[x][y][(p+1).pos]&&(mk[x][y][(p+1).pos]=true,search(x,y,p+1))||
-            !mk[x][y][(p+2).pos]&&(mk[x][y][(p+1).pos]=true,search(x,y,p+2));
+    if(a[x][y]=='#')return false;
+    if(a[x][y]=='T'){
+        isFound=true;
+        return true;
+    }
+    if(mk[x][y][p.pos])return true;
+    mk[x][y][p.pos]=true;
+    debug();
+    return search(x,y,p-1)||search(x,y,p)||search(x,y,p+1)||search(x,y,p+2);
 }
 int main(){
     freopen("a.txt","w",stdout);
@@ -93,10 +96,10 @@ int main(){
         char dir;
         cin>>dir;
         Position p(dir);
-        cout<<((!mk[x][y][(p-1).pos]&&(mk[x][y][(p-1).pos]=true,search(x,y,p-1))||
-            !mk[x][y][p    .pos]&&(mk[x][y][p    .pos]=true,search(x,y,p  ))||
-            !mk[x][y][(p+1).pos]&&(mk[x][y][(p+1).pos]=true,search(x,y,p+1))||
-            !mk[x][y][(p+2).pos]&&(mk[x][y][(p+1).pos]=true,search(x,y,p+2)))?"YES":"NO")<<endl;
+        mk[x][y][dir]=true;
+        isFound=false;
+        search(x,y,p-1)||search(x,y,p)||search(x,y,p+1)||search(x,y,p+2);
+        cout<<(isFound?"YES":"NO")<<endl;
     }
     return 0;
 }
