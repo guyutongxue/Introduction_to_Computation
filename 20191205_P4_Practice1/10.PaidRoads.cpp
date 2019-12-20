@@ -18,11 +18,14 @@ void search(int s,int current){
 	for(int i=1;i<=m;i++){
 		if(s==a[i].u&&visit[a[i].v]<=3){
 			int v=a[i].v;
-			visit[v]++;
-			if(visit[a[i].c])
+			if(visit[a[i].c]){
+                visit[v]++;
 				search(v,current+a[i].p);
-			else
-				search(v,current+a[i].r);
+            }
+			else{
+                visit[v]++;
+                search(v,current+a[i].r);
+            }
 			visit[v]--;
 		}
 	}
@@ -31,15 +34,6 @@ void search(int s,int current){
  
 int main(){
 	cin>>n>>m;
-    // I'VE PASSED THE ORIGINAL POJ PROBLEM, I DON'T KNOW WHY THIS F**K THINGS HAPPENED
-    if(n==6&&m==10){
-        cout<<21<<endl;
-        return 0;
-    }
-    if(n==2&&m==9){
-        cout<<79<<endl;
-        return 0;
-    }
     memset(visit,0,sizeof(visit));
     for(int i=1;i<=m;i++){
         cin>>a[i].u>>a[i].v>>a[i].c>>a[i].p>>a[i].r;
