@@ -6,7 +6,7 @@ enum Status {
     HEALTHY,    // A healthy status, nothing happened.
     ILL,        // Has been inflected.
     DANGEROUS,  // Will be ill next day.
-    RECOVERED   // Healthy and never will be inflected again.
+    RECOVERED   // Healthy and won't be inflected again.
 };
 
 struct Student {

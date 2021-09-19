@@ -24,7 +24,7 @@ constexpr auto save() {
     return save_impl(std::make_integer_sequence<int, N>{});
 }
 
-const auto a{save<21>()};
+const auto fib{save<21>()};
 
 int main() {
     int n;
@@ -32,6 +32,6 @@ int main() {
     while (n--) {
         int i;
         std::cin >> i;
-        std::cout << a[i] << std::endl;
+        std::cout << fib[i] << std::endl;
     }
 }
