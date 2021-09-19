@@ -16,16 +16,17 @@ struct Fib<1> {
 };
 
 template<int... Vals>
-std::array<int, sizeof...(Vals)> save_impl(std::integer_sequence<int, Vals...>) {
+constexpr std::array<int, sizeof...(Vals)> save_impl(std::integer_sequence<int, Vals...>) {
     return { Fib<Vals>::val... };
 }
 template<int N>
-auto save() {
+constexpr auto save() {
     return save_impl(std::make_integer_sequence<int, N>{});
 }
 
+const auto a{save<21>()};
+
 int main() {
-    const auto a = save<21>();
     int n;
     std::cin >> n;
     while (n--) {
