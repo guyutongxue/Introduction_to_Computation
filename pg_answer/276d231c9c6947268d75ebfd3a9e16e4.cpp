@@ -55,7 +55,7 @@ int main() {
                 }
             }
         }
-        if (cnt == 2'000'000'000) {
+        if (days == 2'000'000'000) {
             std::cout << -1 << std::endl;
             std::exit(0);
         }
