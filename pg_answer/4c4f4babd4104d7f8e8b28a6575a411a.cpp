@@ -23,7 +23,7 @@ int main() {
         std::cin >> s;
         int d{0}, m{0}, y{0};
         int curlen{0};
-        for (int j = 0; j <= s.length(); j++) {
+        for (int j{0}; j <= s.length(); j++) {
             if (s[j] == '-' || s[j] == '/' || s[j] == '\0') {
                 if (curlen == 2) {
                     d = std::stoi(s.substr(j - 2, 2));
