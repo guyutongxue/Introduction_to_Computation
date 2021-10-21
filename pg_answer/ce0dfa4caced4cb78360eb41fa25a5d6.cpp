@@ -25,7 +25,7 @@ int main() {
         diff[i] = pins[i].rate() - pins[i - 1].rate();
     }
     auto ptr{std::max_element(diff + 1, diff + n)};
-    int aNum = ptr - diff;
+    int aNum{ptr - diff};
     std::cout << n - aNum << std::endl;
     for (int i{aNum}; i < n; i++) {
         std::cout << pins[i].no << std::endl;

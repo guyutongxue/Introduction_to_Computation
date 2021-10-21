@@ -92,7 +92,7 @@ async function login() {
 const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
 
 (async () => {
-    await login();
+    if (!await login()) process.exit();
     const setInfos = await fetch(`https://programming.pku.edu.cn/programming/course/${COURSE_ID}/show.do`, {
         headers: {
             ...headers,
@@ -187,17 +187,17 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
         markdownContent += `## ${title}\n`;
         problems.forEach(({ id, title, description, aboutInput, aboutOutput }) => {
             markdownContent += `### ${title}\n`;
-            markdownContent += `#### 题目描述\n${description}\n\n`;
+            markdownContent += `\n\n<details>\n\n#### 题目描述\n${description}\n\n`;
             markdownContent += `#### 输入\n${aboutInput}\n\n`;
-            markdownContent += `#### 输出\n${aboutOutput}\n\n`;
+            markdownContent += `#### 输出\n${aboutOutput}\n\n</details>\n\n`;
             if (id in answers) {
-                markdownContent += `#### 参考答案\n[点我查看](#ans_${id})\n\n`;
+                markdownContent += `#### [点我查看参考答案](#ans_${id})\n\n`;
             } else {
-                markdownContent += `#### 参考答案\n暂无\n\n`;
+                markdownContent += `#### 暂无参考答案\n\n`;
             }
         });
     }
-    markdownContent += "## 参考答案"
+    markdownContent += "## 参考答案\n\n"
     for (const id in answers) {
         markdownContent += `###### ans_${id}\n`;
         markdownContent += `\`\`\`cpp\n${answers[id]}\n\`\`\`\n`;
