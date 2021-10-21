@@ -137,8 +137,8 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
                  * }[]} */
                 const problems = json.problemlist.problems;
                 return {
-                    /** @type {string} */
-                    title: json.problemlist.title,
+                    title: set.text,
+                    id: set.id,
                     problems: await Promise.all(problems.map(async ({ id }) => {
                         console.log(`Set ${set.id}, Fetch problem: ${id}`);
                         return fetch(`https://programming.pku.edu.cn/programming/problem/${id}/show.do?problemsId=${set.id}&type=json`, {
@@ -182,27 +182,52 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
     });
 
     let markdownContent = "# 参考答案汇总\n\n";
+    let toc = "<ul>";
+    const added = new Set();
 
-    for (const {title, problems} of problemInfo) {
-        markdownContent += `## ${title}\n`;
+    for (const {title, id, problems} of problemInfo) {
+        markdownContent += `\n\n<h2 id="s_${id}">${title}</h2>\n\n`;
+        toc += `<li><a href="#s_${id}">${title}</a><ul>`;
         problems.forEach(({ id, title, description, aboutInput, aboutOutput }) => {
-            markdownContent += `### ${title}\n`;
-            markdownContent += `\n\n<details>\n\n#### 题目描述\n${description}\n\n`;
-            markdownContent += `#### 输入\n${aboutInput}\n\n`;
-            markdownContent += `#### 输出\n${aboutOutput}\n\n</details>\n\n`;
-            if (id in answers) {
-                markdownContent += `#### [点我查看参考答案](#ans_${id})\n\n`;
+            if (added.has(id)) {
+                markdownContent += `### [${title}](#p_${id})\n\n`;
             } else {
-                markdownContent += `#### 暂无参考答案\n\n`;
+                added.add(id);
+                markdownContent += `\n\n<h3 id="p_${id}">${title}</h3>\n\n`;
+                markdownContent += `\n\n<details>\n\n#### 题目描述\n${description}\n\n`;
+                markdownContent += `#### 输入\n${aboutInput}\n\n`;
+                markdownContent += `#### 输出\n${aboutOutput}\n\n</details>\n\n`;
+                if (id in answers) {
+                    markdownContent += `#### 参考答案\n\`\`\`cpp\n${answers[id]}\n\`\`\`\n\n`;
+                } else {
+                    markdownContent += `#### 暂无参考答案\n\n`;
+                }
             }
+            toc += `<li><a href="#p_${id}">${title}</a></li>`;
         });
+        toc += "</ul></li>";
     }
-    markdownContent += "## 参考答案\n\n"
-    for (const id in answers) {
-        markdownContent += `###### ans_${id}\n`;
-        markdownContent += `\`\`\`cpp\n${answers[id]}\n\`\`\`\n`;
-    }
+    toc += "</ul>";
 
     fs.mkdirSync(dirname(`../${OUTPUT_FILE}`), { recursive: true });
-    fs.writeFileSync(`../${OUTPUT_FILE}`, markdownContent);
+    fs.writeFileSync(`../${OUTPUT_FILE}`, `<style>
+body {
+    max-width: none;
+    padding: 0;
+}
+aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 300px;
+    overflow: auto;
+}
+main {
+    padding: 2em;
+    margin-left: 300px;
+}
+</style>
+<aside>${toc}</aside>
+<main>\n\n${markdownContent}\n\n</main>`);
 })();
