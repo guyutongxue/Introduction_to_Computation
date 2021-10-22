@@ -159,7 +159,7 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
                                  * }} */
                                 const problem = json.problem;
                                 function htmlify(/** @type {string} */str) {
-                                    return `<p>${str.replace(/\n/g, "<br>").replace(/<\/?strong>/, "")}</p>`;
+                                    return `<p>${str.replace(/\n/g, "<br>").replace(/<\/?strong>/g, "").replace(/<\/?font(\s.*?)?>/g, "")}</p>`;
                                 }
                                 return {
                                     title: problem.title,
@@ -186,6 +186,7 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
     const added = new Set();
 
     for (const {title, id, problems} of problemInfo) {
+        if (title.includes("复盘")) continue;
         markdownContent += `\n\n<h2 id="s_${id}">${title}</h2>\n\n`;
         toc += `<li><a href="#s_${id}">${title}</a><ul>`;
         problems.forEach(({ id, title, description, aboutInput, aboutOutput }) => {

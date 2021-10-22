@@ -45,6 +45,10 @@
 #######################
 temp/
 
+# Mac
+.DS_Store
+
 # Node.js
 node_modules/
 dist/
+pg_answer_easy/
