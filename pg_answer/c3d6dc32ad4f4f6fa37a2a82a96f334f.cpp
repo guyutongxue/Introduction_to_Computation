@@ -20,7 +20,7 @@ int search(int k) {
     }
     int min{std::numeric_limits<int>::max()};
     for (int i{0}; i < n; i++) {
-        trans[k] = i;
+        trans[k - 1] = i;
         min = std::min(min, search(k - 1));
     }
     return min;
