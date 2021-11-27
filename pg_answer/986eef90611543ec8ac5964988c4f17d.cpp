@@ -1,35 +1,34 @@
-#include<iostream>
-#include<string>
-using namespace std;
-string dict[102];
-int n,m;
-int main(){
-    cin>>n>>m;
-    for(int i=1;i<=n;i++){
-        cin>>dict[i];
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    int n, m;
+    std::cin >> n >> m;
+    std::vector<std::string> dict(n);
+    for (auto& i : dict) {
+        std::cin >> i;
     }
-    int len=dict[1].length();
-    while(m--){
-        string dest;
-        cin>>dest;
-        while(dest!=""){
-            if(dest.length()<len){
-                cout<<"No"<<endl;
+    int len{dict[0].size()};
+    while (m--) {
+        std::string dest;
+        std::cin >> dest;
+        if (dest.size() % len != 0) {
+            std::cout << "No" << std::endl;
+            continue;
+        }
+        while (dest.size()) {
+            std::string sub{dest.substr(dest.size() - len)};
+            auto it = std::find(dict.begin(), dict.end(), sub);
+            if (it != dict.end()) {
+                dest.erase(dest.size() - len);
+            } else {
+                std::cout << "No" << std::endl;
                 goto next;
             }
-            string sub=dest.substr(0,len);
-            for(int i=1;i<=n;i++){
-                if(dict[i]==sub){
-                    dest.erase(0,len);
-                    goto endOfASub;
-                }
-            }
-            cout<<"No"<<endl;
-            goto next;
-            endOfASub:;
         }
-        cout<<"Yes"<<endl;
-        next:;
+        std::cout << "Yes" << std::endl;
+    next:;
     }
-    return 0;
 }

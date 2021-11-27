@@ -1,105 +1,60 @@
-#include<iostream>
-#include<cstring>
-#include<algorithm>
-using namespace std;
+#include <cstring>
+#include <iostream>
 
 char a[102][102];
-bool mk[102][102][256];
-int n,m;
-bool isFound=false;
+bool mk[102][102][4];
+bool isFound{false};
 
-struct Position{
-    char pos;
-    Position(char c){pos=c;}
-    Position operator-(int x){
-        char res=pos;
-        for(int i=1;i<=x;i++){
-            switch(res){
-                case 'E':res='N';break;
-                case 'N':res='W';break;
-                case 'W':res='S';break;
-                case 'S':res='E';break;
-            }
-        }
-        return Position(res);
-    }
-    Position operator+(int x){
-        char res=pos;
-        for(int i=1;i<=x;i++){
-            switch(res){
-                case 'E':res='S';break;
-                case 'S':res='W';break;
-                case 'W':res='N';break;
-                case 'N':res='E';break;
-            }
-        }
-        return Position(res);
-    }
-};
+int mod(int p) {
+  return (p % 4 + 4) % 4;
+}
 
-
-void step(Position p,int& x,int& y){
-    switch(p.pos){
-        case 'E':y++;break;
-        case 'S':x++;break;
-        case 'W':y--;break;
-        case 'N':x--;break;
+void step(int p, int& x, int& y) {
+    switch (mod(p)) {
+        case 0: y++; break;
+        case 1: x--; break;
+        case 2: y--; break;
+        case 3: x++; break;
     }
 }
 
-void debug(){
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=m;j++){
-            int res=0;
-            if(mk[i][j]['N'])res+=1;
-            if(mk[i][j]['E'])res+=2;
-            if(mk[i][j]['S'])res+=4;
-            if(mk[i][j]['W'])res+=8;
-            cout<<hex<<res;
-        }
-        cout<<endl;
-    }
-    cout<<endl;
-    
-}
-bool search(int x,int y,Position p){
-    step(p,x,y);
-    //debug();
-    if(a[x][y]=='#')return false;
-    if(a[x][y]=='T'){
-        isFound=true;
+bool search(int x, int y, int p) {
+    step(p, x, y);
+    if (a[x][y] == '#') return false;
+    if (a[x][y] == 'T') {
+        isFound = true;
         return true;
     }
-    if(mk[x][y][p.pos])return true;
-    mk[x][y][p.pos]=true;
-    //debug();
-    return search(x,y,p-1)||search(x,y,p)||search(x,y,p+1)||search(x,y,p+2);
+    if (mk[x][y][mod(p)]) return true;
+    mk[x][y][mod(p)] = true;
+    return search(x, y, p + 1) || search(x, y, p) || search(x, y, p - 1) || search(x, y, p - 2);
 }
-int main(){
-    //freopen("a.txt","w",stdout);
-    while(cin>>n>>m){
-        memset(mk,false,sizeof(mk));
-        int x,y;
-        char c;
-        //if(n==26&&m==32)while(c=cin.get(),c!=EOF)cout<<(c=='\n'?'\\':c);
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=m;j++){
-                cin>>a[i][j];
-                if(a[i][j]=='S'){
-                    x=i;
-                    y=j;
-                    a[i][j]='.';
+int main() {
+    int n, m;
+    while (std::cin >> n >> m) {
+        std::memset(mk, 0, sizeof(mk));
+        int x, y, p;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                std::cin >> a[i][j];
+                if (a[i][j] == 'S') {
+                    x = i;
+                    y = j;
+                    a[i][j] = '.';
                 }
             }
         }
-        cin.ignore();
-        char dir;
-        cin>>dir;
-        Position p(dir);
-        mk[x][y][dir]=true;
-        isFound=false;
-        search(x,y,p-1)||search(x,y,p)||search(x,y,p+1)||search(x,y,p+2);
-        cout<<(isFound?"YES":"NO")<<endl;
+        char c;
+        std::cin >> c;
+        switch (c) {
+            case 'E': p = 0; break;
+            case 'N': p = 1; break;
+            case 'W': p = 2; break;
+            case 'S': p = 3; break;
+        }
+        mk[x][y][p] = true;
+        isFound = false;
+        search(x, y, p + 1) || search(x, y, p) || search(x, y, p - 1) || search(x, y, p - 2);
+        std::cout << (isFound ? "YES" : "NO") << std::endl;
     }
-    return 0;
 }
