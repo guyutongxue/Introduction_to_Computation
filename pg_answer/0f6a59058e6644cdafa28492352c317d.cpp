@@ -34,8 +34,8 @@ int main() {
     while (std::cin >> n >> m) {
         std::memset(mk, 0, sizeof(mk));
         int x, y, p;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
+        for (int i{1}; i <= n; i++) {
+            for (int j{1}; j <= m; j++) {
                 std::cin >> a[i][j];
                 if (a[i][j] == 'S') {
                     x = i;
