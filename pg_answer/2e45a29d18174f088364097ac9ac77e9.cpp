@@ -29,11 +29,6 @@ int main() {
     int k;
     std::cin >> k;
     while (k--) {
-        for (int i{0}; i < 205; i++) {
-            for (int j{0}; j < 205; j++) {
-                drown[i][j] = false;
-            }
-        }
         std::cin >> m >> n;
         for (int i{1}; i <= m; i++) {
             for (int j{1}; j <= n; j++) {
@@ -49,11 +44,20 @@ int main() {
 
         int x, y, p;
         std::cin >> x >> y >> p;
+        bool targetDrown{false};
         for (int i{0}; i < p; i++) {
             int sx, sy;
             std::cin >> sx >> sy;
-            dfs(sx, sy);
+            if (!targetDrown) {
+                for (int j{0}; j < 205; j++) {
+                    for (int k{0}; k < 205; k++) {
+                        drown[j][k] = false;
+                    }
+                }
+                dfs(sx, sy);
+                targetDrown = drown[x][y];
+            }
         }
-        std::cout << (drown[x][y] ? "Yes" : "No") << std::endl;
+        std::cout << (targetDrown ? "Yes" : "No") << std::endl;
     }
 }

@@ -52,3 +52,6 @@ temp/
 node_modules/
 dist/
 pg_answer_easy/
+
+tools/
+!tools/generate_md.mjs
