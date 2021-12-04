@@ -2,46 +2,40 @@
 #include <iostream>
 #include <vector>
 
-int n;
 struct Bill {
     int s;
     int t;
-    int c;
+    int w;
     bool operator<(const Bill& b) const {
-        return t == b.t ? s < b.s : t < b.t;
+        return t < b.t;
     }
 };
-std::int64_t save[100002];
+int dp[200020];
+
 int main() {
+    int n;
     std::cin >> n;
-    std::vector<Bill> tax(n);
-    for (auto& i : tax) {
-        std::cin >> i.s >> i.t >> i.c;
+    std::vector<Bill> a(n);
+    std::vector<int> times;  // Discretization
+    for (auto& i : a) {
+        std::cin >> i.s >> i.t >> i.w;
+        times.push_back(i.s);
+        times.push_back(i.t);
     }
-    std::stable_sort(tax.begin(), tax.end());
-    std::int64_t max = save[0] = tax[0].c;
-    for (int i = 1; i < n; i++) {
-        int j = i - 1;
-        int l = 0, r = j, mid;
-        while (r - l > 1) {
-            mid = (r + l) / 2;
-            if (tax[mid].t <= tax[i].s) {
-                l = mid;
-            } else {
-                r = mid - 1;
-            }
-        }
-        if (tax[l].t > tax[i].s && tax[l + 1].t > tax[i].s) {
-            save[i] = tax[i].c;
-        } else {
-            if (tax[l + 1].t <= tax[i].s) {
-                save[i] = tax[i].c + save[l + 1];
-            } else {
-                save[i] = tax[i].c + save[l];
-            }
-        }
-        if (save[i] < save[i - 1]) save[i] = save[i - 1];
-        if (save[i] > max) max = save[i];
+    std::sort(a.begin(), a.end());
+    std::sort(times.begin(), times.end());
+    times.erase(std::unique(times.begin(), times.end()), times.end());
+    for (auto& i : a) {
+        i.s = std::lower_bound(times.begin(), times.end(), i.s) - times.begin();
+        i.t = std::lower_bound(times.begin(), times.end(), i.t) - times.begin();
     }
-    std::cout << max << std::endl;
+    int p{0};
+    for (auto& i : a) {
+        while (p < i.t) {
+            p++;
+            dp[p] = dp[p - 1];
+        }
+        dp[p] = std::max({dp[p], dp[p - 1], dp[i.s] + i.w});
+    }
+    std::cout << dp[a.back().t] << std::endl;
 }
