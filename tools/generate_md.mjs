@@ -10,14 +10,20 @@ import { dirname } from 'path';
 const ANSWER_DIRECTORY = "pg_answer";
 const OUTPUT_FILE = `dist/${ANSWER_DIRECTORY}.md`;
 
-let _cookie = null;
-function saveCookie(cookie) {
-    _cookie = cookie;
+/** @type Record<string, string> */
+let _cookie = {
+    "PG_client": "gytx_ans_gen_tools; Max-Age=315360000; Expires=Fri, 05-Dec-2031 05:34:07 GMT; Path=/; Secure"
+};
+function saveCookie(/** @type string[] */ cookie) {
+    for (const c of cookie) {
+        const [key, ...value] = c.split('=');
+        _cookie[key] = value.join('');
+    }
 }
-function loadCookie() {
-    if (_cookie === null) return {};
+function loadCookie() /** @type { cookie: string } */ {
+    const cookie = Object.entries(_cookie).map(([k, v]) => `${k}=${v}`).join('; ');
     return {
-        cookie: _cookie,
+        cookie
     };
 }
 const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73";
@@ -67,7 +73,8 @@ async function login() {
             }
             return fetch(`https://programming.pku.edu.cn/authcallback?_rand=${Math.random()}&token=${json.token}`, {
                 headers: {
-                    ...headers
+                    ...headers,
+                    ...loadCookie()
                 },
                 redirect: 'manual'
             }).then(r => {
@@ -77,8 +84,7 @@ async function login() {
                     return false;
                 }
                 console.log("Login success.");
-                saveCookie(cookie);
-                console.log(cookie);
+                saveCookie(cookie.split(', '));
                 return true;
             });
         })
@@ -99,9 +105,8 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
             ...loadCookie()
         },
     })
-        .then(r => r.buffer())
-        .then(buf => {
-            const text = iconv.decode(buf, 'gb2312');
+        .then(r => r.text())
+        .then(text => {
             const $ = cheerio.load(text);
             const list = $("ul.homework");
             return list.children().map(function (i) {
