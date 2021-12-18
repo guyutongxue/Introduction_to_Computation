@@ -191,7 +191,7 @@ const COURSE_ID = "8e6b7866023a4489babca3f56973f317";
     const added = new Set();
 
     for (const {title, id, problems} of problemInfo) {
-        if (title.includes("复盘")) continue;
+        if (title.includes("复盘") || title.includes("已经做过")) continue;
         markdownContent += `\n\n<h2 id="s_${id}">${title}</h2>\n\n`;
         toc += `<li><a href="#s_${id}">${title}</a><ul>`;
         problems.forEach(({ id, title, description, aboutInput, aboutOutput }) => {

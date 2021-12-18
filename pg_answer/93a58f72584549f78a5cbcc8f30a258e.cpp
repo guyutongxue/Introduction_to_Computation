@@ -1,68 +1,21 @@
 #include <iostream>
-using namespace std;
-
-struct node {
-    int num;
-    node* next;
-};
-
-node* create() {
-    node *follow = nullptr, *temp, *head;
-    int num;
-    head = new node;
-    temp = head;
-    char ch = '\0';
-    cin >> num;
-    while (true) {
-        temp->num = num;
-        follow = temp;
-        temp->next = new node;
-        temp = temp->next;
-        ch = getchar();
-        if (ch == '\n') break;
-        cin >> num;
-    }
-    follow->next = nullptr;
-    delete temp;
-    return (head);
-}
-
-void sort(node* p) {
-    node *follow, *temp, *tail = nullptr;
-    int t = 0;
-    while (p->next != tail) {
-        follow = p;
-        temp = follow->next;
-        while (follow->next != tail) {
-            if (follow->num > temp->num) {
-                t = follow->num;
-                follow->num = temp->num;
-                temp->num = t;
-            }
-            follow = temp;
-            temp = temp->next;
-        }
-        tail = follow;
-    }
-}
-
-void output(node* p) {
-    node* temp;
-    temp = p;
-    while (temp != nullptr) {
-        cout << temp->num << " ";
-        temp = temp->next;
-    }
-    cout << endl;
-}
+#include <queue>
 
 int main() {
+    std::priority_queue<int, std::vector<int>, std::greater<int>> q;
     int n;
-    cin >> n;
-    for (int i = 0; i < n; i++) {
-        node* head = create();
-        sort(head);
-        output(head);
+    std::cin >> n;
+    std::cin.ignore();
+    while (n--) {
+        int d;
+        do {
+            std::cin >> d;
+            q.push(d);
+        } while (std::cin.get() == ' ');
+        while (!q.empty()) {
+            std::cout << q.top();
+            q.pop();
+            std::cout << " \n"[q.empty()];
+        }
     }
-    return 0;
 }
